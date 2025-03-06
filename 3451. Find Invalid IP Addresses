@@ -1,0 +1,20 @@
+import pandas as pd
+
+def find_invalid_ips(logs: pd.DataFrame) -> pd.DataFrame:
+
+    def not_valid_ip(s: str)-> bool:
+
+        if s[0] == '0' or '.0' in s:        # <-- check for initial 0
+            return True
+
+        octets = s.split('.')
+        if (len(octets) != 4 or             # <-- check for four octets
+            max(map(int, octets)) >= 256):  # <-- check an octet > 256
+            return True
+
+        return False
+            
+    logs = logs.groupby('ip').size().reset_index(name = 'invalid_count')
+
+    return logs[logs.ip.apply(not_valid_ip)
+              ].sort_values(['invalid_count', 'ip'], ascending = [0,0])
