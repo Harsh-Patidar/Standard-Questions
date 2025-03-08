@@ -1,0 +1,9 @@
+class Solution:
+    def maxScore(self, nums: List[int]) -> int:
+        ans=gcd(*nums)*lcm(*nums) 
+        for i in range(len(nums)):
+            temp=(nums[:i]+nums[i+1:]) 
+            g=gcd(*temp)
+            l=lcm(*temp)
+            ans=max(ans,l*g)
+        return ans
