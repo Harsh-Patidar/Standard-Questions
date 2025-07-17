@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+    public int maximumLength(int[] nums, int k) {
+        int n = nums.length;
+        if (n < 2) return 0;
+
+        // dp[i] stores a map: mod -> max length ending at index i
+        Map<Integer, Integer>[] dp = new HashMap[n];
+        for (int i = 0; i < n; i++) {
+            dp[i] = new HashMap<>();
+        }
+
+        int maxLength = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                int mod = (nums[i] + nums[j]) % k;
+
+                int prevLength = dp[j].getOrDefault(mod, 1);
+                int newLength = Math.max(dp[i].getOrDefault(mod, 0), prevLength + 1);
+
+                dp[i].put(mod, newLength);
+                maxLength = Math.max(maxLength, newLength);
+            }
+        }
+
+        return maxLength;
+    }
+}
