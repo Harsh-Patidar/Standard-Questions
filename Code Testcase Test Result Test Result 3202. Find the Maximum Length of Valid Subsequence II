@@ -1,0 +1,22 @@
+class Solution:
+    def maximumLength(self, nums, k):
+        n = len(nums)
+        if n < 2:
+            return 0
+
+        # dp[i] maps mod value to longest valid subsequence ending at i
+        dp = [{} for _ in range(n)]
+        max_length = 0
+
+        for i in range(n):
+            for j in range(i):
+                mod = (nums[i] + nums[j]) % k
+
+                if mod in dp[j]:
+                    dp[i][mod] = max(dp[i].get(mod, 0), dp[j][mod] + 1)
+                else:
+                    dp[i][mod] = max(dp[i].get(mod, 0), 2)
+
+                max_length = max(max_length, dp[i][mod])
+
+        return max_length
