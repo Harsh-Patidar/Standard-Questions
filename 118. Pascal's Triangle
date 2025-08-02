@@ -15,3 +15,10 @@ class Solution:
         for i in range(numRows):
             result.append(generate_row(i))
         return result
+
+
+Anothe Solution:------------------------------------------------------------------------------------------------------------
+
+class Solution:
+    def generate(self, numRows: int) -> List[List[int]]:
+        return [[math.comb(r,c) for c in range(r+1)] for r in range(numRows)]
